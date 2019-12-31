@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["./types", "node_modules/@types"],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "skipLibCheck": false,
+    "sourceMap": false,
+    "strict": true,
+    "target": "esnext",
+    "resolveJsonModule": true,
+    "outDir": "./dist"
+  }
+}
