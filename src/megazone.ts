@@ -1,10 +1,10 @@
 import qs from 'qs'
 import got from 'got'
 import cheerio from 'cheerio'
-import { DateTime, Interval } from 'luxon'
+import { DateTime } from 'luxon'
 import { Nominal } from './types/Nominal'
-import { getSunday } from './date'
 import R from 'ramda'
+import stringify from './stringify'
 
 export type MzAvailableDateTime = Nominal<DateTime, 'MzAvailableDateTime'>
 export type MzLocation = 'hki' | 'vnt'
@@ -13,6 +13,7 @@ export type MzEvent = {
   end: string
   players: number
   maxPlayers: number
+  location: MzLocation
 }
 
 enum MzGameType {
@@ -30,6 +31,15 @@ export const getMaxPlayerCount = (loc: MzLocation) => {
       return 36
     case 'vnt':
       return 33
+  }
+}
+
+export const getLocationName = (loc: MzLocation) => {
+  switch (loc) {
+    case 'hki':
+      return 'Helsinki'
+    case 'vnt':
+      return 'Vantaa'
   }
 }
 
@@ -71,7 +81,8 @@ export const getAvailableRoundsFromWeeklyCalendar = (
     throw new Error(`Invalid player count: ${playerCount}`)
   }
   console.log(
-    `getting calendar html loc=${loc} date=${sundayDate.toISO()} playerCount=${playerCount}`
+    'getting calendar html',
+    stringify({ loc, date: sundayDate.toISO(), playerCount })
   )
   return getRawCalendarHtml(loc, sundayDate, playerCount).then(
     parseCalendarHtml
@@ -131,7 +142,8 @@ export const getEventsForWeek = async (
         .plus({ minutes: 30 })
         .toISO(),
       players: playerCount,
-      maxPlayers: maxPlayerCount
+      maxPlayers: maxPlayerCount,
+      location: loc
     } as MzEvent
   })
 }

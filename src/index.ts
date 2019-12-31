@@ -1,10 +1,11 @@
-import { getEventsForWeek } from './megazone'
-import { DateTime } from 'luxon'
+import { updateMzLocationCalendar } from './megazoneCalendar'
+import pMapSeries from 'p-map-series'
+import { MzLocation } from './megazone'
 
-;(async () => {
-  const events = await getEventsForWeek('hki', DateTime.fromISO('2020-01-05'))
+async function main() {
+  await pMapSeries(['hki', 'vnt'] as MzLocation[], (loc) =>
+    updateMzLocationCalendar(loc)
+  )
+}
 
-  events.forEach((e) => {
-    console.log(e.start, `${e.players}/${e.maxPlayers}`)
-  })
-})()
+main().catch(console.error)
