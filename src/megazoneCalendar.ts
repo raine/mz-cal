@@ -33,7 +33,7 @@ const upsertEvent = async (
   } else if (existingCalEvent && existingCalEvent.summary !== summary) {
     console.log(
       'calendar event exists for mz event, but summary has updated',
-      stringify({ newSummary: summary, oldSummary: existingCalEvent.summary })
+      stringify({ newSummary: summary, oldSummary: existingCalEvent.summary, ...mzEvent })
     )
     await calendar.events.patch({
       calendarId,
