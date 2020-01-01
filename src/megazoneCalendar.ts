@@ -77,6 +77,5 @@ export const updateMzLocationCalendar = async (location: MzLocation) => {
       })
   )
 
-  // TODO: check future calendar event dates that don't exist in mzEvents and delete them
   console.log('finished updating mz calendar', stringify({ location }))
 }
