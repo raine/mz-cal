@@ -1,5 +1,4 @@
 import { calendar, authenticate } from './google'
-import { back as nockBack } from 'nock'
 import {
   MzEvent,
   getLocationName,
@@ -46,18 +45,12 @@ const upsertEvent = async (
   }
 }
 
-nockBack.fixtures = __dirname + '/../test/fixtures'
-
 export const updateMzLocationCalendar = async (location: MzLocation) => {
   const calendarId = config.mzLocationCalendarIds[location]
   const calendarEvents = await listCalendarEvents(calendarId)
-  nockBack.setMode('record')
-  const { nockDone } = await nockBack(`calendar-nock-${location}.json`)
   const mzEvents = (
     await pMapSeries([0, 1], (n) => getEventsForWeek(location, getSunday(n)))
   ).flat()
-  nockDone()
-  nockBack.setMode('wild')
   await pMapSeries(mzEvents, (event) =>
     upsertEvent(calendarId, calendarEvents, event)
   )
