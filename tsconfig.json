@@ -15,5 +15,6 @@
     "lib": ["es2019"],
     "resolveJsonModule": true,
     "outDir": "./dist"
-  }
+  },
+  "include": ["src/"]
 }
