@@ -80,10 +80,6 @@ export const getAvailableRoundsFromWeeklyCalendar = (
   if (playerCount < 1 || playerCount > getMaxPlayerCount(loc)) {
     throw new Error(`Invalid player count: ${playerCount}`)
   }
-  console.log(
-    'getting calendar html',
-    stringify({ loc, date: sundayDate.toISO(), playerCount })
-  )
   return getRawCalendarHtml(loc, sundayDate, playerCount).then(
     parseCalendarHtml
   )
