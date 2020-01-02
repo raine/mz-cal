@@ -19,7 +19,7 @@ export const listCalendarEvents = async (calendarId: string) => {
   ): Promise<calendar_v3.Schema$Event[]> {
     const { data } = await calendar.events.list({
       calendarId,
-      maxResults: 100,
+      maxResults: 2500,
       pageToken,
       ...(await authenticate())
     })
