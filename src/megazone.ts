@@ -37,13 +37,13 @@ export const getMaxPlayerCount = (loc: MzLocation) => {
   }
 }
 
-export const getLocationName = (loc: MzLocation) => {
+export const getLocationName = (loc: MzLocation): string => {
   switch (loc) {
     case 'hki':
       return 'Helsinki'
     case 'vnt':
       return 'Vantaa'
-    case 'vnt':
+    case 'tre':
       return 'Tampere'
     case 'jkl':
       return 'Jyväskylä'
