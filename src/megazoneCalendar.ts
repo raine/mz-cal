@@ -77,7 +77,10 @@ export const updateMzLocationCalendar = async (location: MzLocation) => {
     calendar.events
       .delete({ calendarId, eventId: event.id!, ...(await authenticate()) })
       .then(() => {
-        console.log('deleted event', stringify({ eventId: event.id! }))
+        console.log(
+          'deleted event',
+          stringify({ eventId: event.id!, date: event.start?.dateTime })
+        )
       })
   )
 
