@@ -8,4 +8,7 @@ async function main() {
   await pMapSeries(config.mzLocations, (loc) => updateMzLocationCalendar(loc))
 }
 
-main().catch(console.error)
+main().catch((err) => {
+  console.error('ERROR:', err)
+  process.exit(1)
+})
