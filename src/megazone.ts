@@ -4,10 +4,9 @@ import cheerio from 'cheerio'
 import { DateTime } from 'luxon'
 import { Nominal } from './types/Nominal'
 import R from 'ramda'
-import stringify from './stringify'
 
 export type MzAvailableDateTime = Nominal<DateTime, 'MzAvailableDateTime'>
-export type MzLocation = 'hki' | 'vnt'
+export type MzLocation = 'hki' | 'vnt' | 'tre' | 'jkl'
 export type MzEvent = {
   start: string
   end: string
@@ -31,6 +30,10 @@ export const getMaxPlayerCount = (loc: MzLocation) => {
       return 36
     case 'vnt':
       return 33
+    case 'tre':
+      return 36
+    case 'jkl':
+      return 27
   }
 }
 
@@ -40,6 +43,10 @@ export const getLocationName = (loc: MzLocation) => {
       return 'Helsinki'
     case 'vnt':
       return 'Vantaa'
+    case 'vnt':
+      return 'Tampere'
+    case 'jkl':
+      return 'Jyväskylä'
   }
 }
 

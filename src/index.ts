@@ -1,11 +1,11 @@
 import { updateMzLocationCalendar } from './megazoneCalendar'
 import pMapSeries from 'p-map-series'
-import { MzLocation } from './megazone'
+import config from './config'
+import stringify from './stringify'
 
 async function main() {
-  await pMapSeries(['hki', 'vnt'] as MzLocation[], (loc) =>
-    updateMzLocationCalendar(loc)
-  )
+  console.log(stringify({ locations: config.mzLocations }))
+  await pMapSeries(config.mzLocations, (loc) => updateMzLocationCalendar(loc))
 }
 
 main().catch(console.error)

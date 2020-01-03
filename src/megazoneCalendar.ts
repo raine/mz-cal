@@ -50,7 +50,7 @@ const upsertEvent = async (
 }
 
 export const updateMzLocationCalendar = async (location: MzLocation) => {
-  const calendarId = config.mzLocationCalendarIds[location]
+  const calendarId = config.mzLocationCalendarIds[location]!
   const calendarEvents = await listCalendarEvents(calendarId)
   const mzEvents = (
     await pMapSeries([0, 1], (n) => getEventsForWeek(location, getSunday(n)))

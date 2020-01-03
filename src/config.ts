@@ -11,15 +11,21 @@ function getFromEnv(prop: string): string {
 
 type Config = {
   GOOGLE_APPLICATION_CREDENTIALS: string
-  mzLocationCalendarIds: { [key in MzLocation]: string }
+  mzLocationCalendarIds: { [key in MzLocation]?: string }
+  mzLocations: MzLocation[]
 }
 
-const config = {
+const mzLocationCalendarIds = Object.entries(process.env).reduce<
+  Config['mzLocationCalendarIds']
+>((acc, [key, val]) => {
+  const m = key.match(/MZ_CALENDAR_ID_(.+)/)
+  return m ? { ...acc, [m[1].toLowerCase()]: val } : acc
+}, {})
+
+const config: Config = {
   GOOGLE_APPLICATION_CREDENTIALS: getFromEnv('GOOGLE_APPLICATION_CREDENTIALS'),
-  mzLocationCalendarIds: {
-    hki: getFromEnv('MZ_HKI_CALENDAR_ID'),
-    vnt: getFromEnv('MZ_VNT_CALENDAR_ID')
-  }
+  mzLocationCalendarIds,
+  mzLocations: Object.keys(mzLocationCalendarIds) as MzLocation[]
 }
 
 export default config
