@@ -3,7 +3,8 @@ import {
   MzEvent,
   getLocationName,
   MzLocation,
-  getEventsForWeek
+  getEventsForWeek,
+  getMaxPlayerCount
 } from './megazone'
 import stringify from './stringify'
 import { listCalendarEvents, insertEvent } from './calendar'
@@ -13,7 +14,7 @@ import pMapSeries from 'p-map-series'
 import { calendar_v3 } from 'googleapis'
 import { getSunday } from './date'
 
-const formatEventSummary = (event: MzEvent) =>
+const formatEventSummary = (event: Omit<MzEvent, 'start' | 'end'>) =>
   `${getLocationName(event.location)} ${event.players}/${event.maxPlayers}`
 
 const upsertEvent = async (
@@ -73,19 +74,19 @@ export const updateMzLocationCalendar = async (location: MzLocation) => {
       : false
   })
 
+  const maxPlayerCount = getMaxPlayerCount(location)
+  const maxPlayersEvent = {
+    location,
+    players: maxPlayerCount,
+    maxPlayers: maxPlayerCount
+  }
   await pMapSeries(calendarEventsToBeDeleted, async (event) =>
-    calendar.events
-      .delete({ calendarId, eventId: event.id!, ...(await authenticate()) })
-      .then(() => {
-        console.log(
-          'deleted event',
-          stringify({
-            eventId: event.id!,
-            summary: event.summary,
-            date: event.start?.dateTime
-          })
-        )
-      })
+    calendar.events.patch({
+      calendarId,
+      eventId: event.id!,
+      requestBody: { summary: formatEventSummary(maxPlayersEvent) },
+      ...(await authenticate())
+    })
   )
 
   console.log('finished updating mz calendar', stringify({ location }))
