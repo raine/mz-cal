@@ -164,10 +164,12 @@ export const parseCreateBookingHref = (href: string): DateTime => {
 
 export const parseCalendarHtml = (html: string): MzAvailableDateTime[] => {
   const $ = cheerio.load(html)
-  return $('.s-avail')
-    .map((_, elem) => {
-      const href = $('a', elem).attr('href')!
-      return parseCreateBookingHref(href)
-    })
-    .get() as MzAvailableDateTime[]
+  const elems = [
+    ...$('td.s-avail > a[href]').toArray(),
+    ...$('td.s-avail-yellow > a[href]').toArray()
+  ]
+  return elems.map(
+    (elem) =>
+      parseCreateBookingHref(elem.attribs['href']) as MzAvailableDateTime
+  )
 }
