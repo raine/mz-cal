@@ -11,5 +11,5 @@ FROM mhart/alpine-node:slim-12
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=0 /app .
-RUN apk --no-cache add curl
+RUN apk --no-cache add curl bash
 CMD ["node", "dist/index.js"]
