@@ -1,6 +1,7 @@
 import { google, calendar_v3 } from 'googleapis'
 import { authenticate } from './google'
 import stringify from './stringify'
+import { DateTime } from 'luxon'
 
 const calendar = google.calendar({ version: 'v3' })
 
@@ -21,6 +22,7 @@ export const listCalendarEvents = async (calendarId: string) => {
       calendarId,
       maxResults: 2500,
       pageToken,
+      timeMin: DateTime.utc().startOf('day').toISO(),
       ...(await authenticate())
     })
 
