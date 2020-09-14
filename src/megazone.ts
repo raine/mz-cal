@@ -27,9 +27,9 @@ enum MzGamePackage {
 export const getMaxPlayerCount = (loc: MzLocation) => {
   switch (loc) {
     case 'hki':
-      return 24
+      return 36
     case 'vnt':
-      return 24
+      return 33
     case 'tre':
       return 36
     case 'jkl':
